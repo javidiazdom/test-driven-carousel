@@ -5,7 +5,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "test",
+    "lint": "eslint . && prettier-eslint --list-different **/*.js",
+    "format": "prettier-eslint --write **/*.js"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +18,12 @@
     "@babel/preset-react": "^7.10.4",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^26.5.2",
+    "eslint": "^6.6.0",
+    "eslint-plugin-jest": "^24.1.0",
+    "eslint-plugin-react": "^7.21.3",
     "jest": "^26.5.2",
+    "prettier": "^2.1.2",
+    "prettier-eslint-cli": "^5.0.0",
     "react-dom": "^16.13.1"
   },
   "dependencies": {
