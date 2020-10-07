@@ -6,6 +6,7 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
+    "test-watch": "jest --watch",
     "lint": "eslint . && prettier-eslint --list-different **/*.js",
     "format": "prettier-eslint --write **/*.js"
   },
@@ -29,6 +30,7 @@
     "react-dom": "^16.13.1"
   },
   "dependencies": {
+    "prop-types": "^15.7.2",
     "react": "^16.13.1"
   }
 }
