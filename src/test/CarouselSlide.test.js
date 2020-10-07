@@ -4,7 +4,7 @@ import CarouselSlide from '../CarouselSlide';
 
 describe('CarouselSlide', () => {
   it('renders a <figure>', () => {
-    const wrapper = <CarouselSlide />;
+    const wrapper = shallow(<CarouselSlide />);
     expect(wrapper.type()).toBe('figure');
   });
 });
