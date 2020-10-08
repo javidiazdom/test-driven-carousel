@@ -13,6 +13,13 @@ describe('CarouselSlide', () => {
       />
     );
   });
+  it('renders correctly', () => {
+    wrapper.setProps({
+      description: 'Description',
+      attribution: 'Attribution',
+    });
+    expect(wrapper).toMatchSnapshot();
+  });
   it('renders a <figure>', () => {
     expect(wrapper.type()).toBe('figure');
   });
@@ -50,6 +57,9 @@ describe('CarouselSlide', () => {
     beforeEach(() => {
       const Img = CarouselSlide.defaultProps.Img;
       mounted = mount(<Img src={imgUrl} imgHeight={500} />);
+    });
+    it('renders correctly', () => {
+      expect(mounted.find('img')).toMatchSnapshot();
     });
     it('renders an <img> with the given src', () => {
       expect(mounted.containsMatchingElement(<img src={imgUrl} />)).toBe(true);
