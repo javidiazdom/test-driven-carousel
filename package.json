@@ -8,7 +8,8 @@
     "test": "jest",
     "test-watch": "jest --watch",
     "lint": "eslint . && prettier-eslint --list-different **/*.js",
-    "format": "prettier-eslint --write **/*.js"
+    "format": "prettier-eslint --write **/*.js",
+    "build": "webpack --config webpack.config.js"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^26.5.2",
+    "babel-loader": "^8.1.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.5",
     "eslint": "^6.6.0",
@@ -29,7 +31,9 @@
     "jest": "^26.5.2",
     "prettier": "^2.1.2",
     "prettier-eslint-cli": "^5.0.0",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "webpack": "^4.44.2",
+    "webpack-cli": "^3.3.12"
   },
   "dependencies": {
     "prop-types": "^15.7.2",
