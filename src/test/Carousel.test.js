@@ -77,7 +77,7 @@ describe('Carousel', () => {
         ...CarouselSlide.defaultProps,
         ...slides[0],
       });
-      wrapper.setState({ slideIndex: 1 });
+      wrapper.setProps({ slideIndex: 1 });
       slideProps = wrapper.find(CarouselSlide).props();
       expect(slideProps).toEqual({
         ...CarouselSlide.defaultProps,
@@ -87,7 +87,7 @@ describe('Carousel', () => {
 
     it('decrements stateIndex when Prev is clicked', () => {
       wrapper.find('[data-action="prev"]').simulate('click');
-      expect(slideIndexIncrement).toHaveBeenCalledWith(slides.length);
+      expect(slideIndexDecrement).toHaveBeenCalledWith(slides.length);
     });
 
     it('increments stateIndex when Next is clicked', () => {
