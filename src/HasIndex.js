@@ -11,7 +11,7 @@ export default (Component, indexPropName) => {
       Component.name})`;
 
     static propTypes = {
-      [indexPropName]: PropTypes.number, // (2)
+      [indexPropName]: PropTypes.number,
       [defaultIndexPropName]: PropTypes.number,
       onIndexChange: PropTypes.func,
     };
@@ -20,7 +20,7 @@ export default (Component, indexPropName) => {
       [defaultIndexPropName]: 0,
     };
 
-    static getDerivedStateFromProps(props, state) { // (3)
+    static getDerivedStateFromProps(props, state) {
       if (
         props[indexPropName] != null &&
         props[indexPropName] !== state.index
