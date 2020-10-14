@@ -1,80 +1,98 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
-import Carousel, {Carousel as CoreCarousel} from '../Carousel';
+import Carousel, { Carousel as CoreCarousel } from '../Carousel';
 import CarouselButton from '../CarouselButton';
 import CarouselSlide from '../CarouselSlide';
 
 describe('Carousel', () => {
-  let wrapper;
-
   const slides = [
     {
-      imgUrl: 'https://www.example.com/slide1.png',
+      imgUrl: 'https://example.com/slide1.png',
       description: 'Slide 1',
       attribution: 'Uno Pizzeria',
     },
     {
-      imgUrl: 'https://www.example.com/slide2.png',
+      imgUrl: 'https://example.com/slide2.png',
       description: 'Slide 2',
       attribution: 'Dos Equis',
     },
     {
-      imgUrl: 'https://www.example.com/slide3.png',
+      imgUrl: 'https://example.com/slide3.png',
       description: 'Slide 3',
       attribution: 'Three Amigos',
     },
   ];
-  beforeEach(() => {
-    wrapper = shallow(<Carousel slides={slides} />);
-  });
+
   describe('component with HOC', () => {
-    let wrapper;
+    let mounted;
 
     beforeEach(() => {
-      wrapper = shallow(<Carousel slides={slides}/>)
-    })
-
-    it('sets slideIndex ={0} on the core component', () => {
-      expect(wrapper.find(CoreCarousel).prop('slideIndex')).toBe(0);
-    })
+      mounted = mount(<Carousel slides={slides} />);
+    });
 
     it('passes `slides` down to the core component', () => {
-      expect(wrapper.find(CoreCarousel).prop('slides')).toBe(slides);
-    })
+      expect(mounted.find(CoreCarousel).prop('slides')).toBe(slides);
+    });
+
+    it('sets slideIndex={0} on the core component', () => {
+      expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(0);
+    });
 
     it('allows `slideIndex` to be controlled', () => {
-      const mounted = mount(<Carousel slides={slides} slideIndex={1}/>);
+      mounted = mount(<Carousel slides={slides} slideIndex={1} />);
       expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(1);
-      mounted.setProps({slideIndex:0});
+      mounted.setProps({ slideIndex: 0 });
       expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(0);
-    })
-  })
+    });
+
+    it('advances the slide after `autoAdvanceDelay` elapses', () => {
+      jest.useFakeTimers();
+      const autoAdvanceDelay = 10e3;
+      mounted = mount(
+        <Carousel slides={slides} autoAdvanceDelay={autoAdvanceDelay} />
+      );
+      jest.advanceTimersByTime(autoAdvanceDelay);
+      mounted.update(); //(1)
+      expect(mounted.find(CoreCarousel).prop('slideIndex')).toBe(1);
+    });
+  });
 
   describe('core component', () => {
     const slideIndexDecrement = jest.fn();
     const slideIndexIncrement = jest.fn();
     let wrapper;
 
-    beforeEach(()=> {
-      wrapper=shallow(
+    beforeEach(() => {
+      wrapper = shallow(
         <CoreCarousel
-        slides={slides}
-        slideIndex={0}
-        slideIndexDecrement={slideIndexDecrement}
-        slideIndexIncrement={slideIndexIncrement}/>
+          slides={slides}
+          slideIndex={0}
+          slideIndexDecrement={slideIndexDecrement}
+          slideIndexIncrement={slideIndexIncrement}
+        />
       );
     });
 
-    it('renders a div', () => {
+    it('renders a <div>', () => {
       expect(wrapper.type()).toBe('div');
     });
 
-    it('renders a carousel button labeled `prev`', () => {
-      expect(wrapper.find(CarouselButton).at(0).prop('children')).toBe('Prev');
+    it('renders a CarouselButton labeled "Prev"', () => {
+      expect(
+        wrapper
+          .find(CarouselButton)
+          .at(0)
+          .prop('children')
+      ).toBe('Prev');
     });
 
-    it('renders a carousel button labeled `next`', () => {
-      expect(wrapper.find(CarouselButton).at(1).prop('children')).toBe('Next');
+    it('renders a CarouselButton labeled "Next"', () => {
+      expect(
+        wrapper
+          .find(CarouselButton)
+          .at(1)
+          .prop('children')
+      ).toBe('Next');
     });
 
     it('renders the current slide as a CarouselSlide', () => {
@@ -92,12 +110,12 @@ describe('Carousel', () => {
       });
     });
 
-    it('decrements stateIndex when Prev is clicked', () => {
+    it('decrements `slideIndex` when Prev is clicked', () => {
       wrapper.find('[data-action="prev"]').simulate('click');
       expect(slideIndexDecrement).toHaveBeenCalledWith(slides.length);
     });
 
-    it('increments stateIndex when Next is clicked', () => {
+    it('increments `slideIndex` when Next is clicked', () => {
       wrapper.find('[data-action="next"]').simulate('click');
       expect(slideIndexIncrement).toHaveBeenCalledWith(slides.length);
     });
@@ -119,5 +137,5 @@ describe('Carousel', () => {
       expect(wrapper.find(CarouselSlide).prop('Img')).toBe(Img);
       expect(wrapper.find(CarouselSlide).prop('imgHeight')).toBe(imgHeight);
     });
-  })
+  });
 });
